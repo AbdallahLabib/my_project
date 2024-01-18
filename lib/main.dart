@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_maps/app_router.dart';
 import 'package:flutter_maps/features/authentication/presentation/bloc/phone_auth_bloc.dart';
 import 'package:flutter_maps/features/authentication/presentation/widgets/injection_container.dart';
+import 'package:flutter_maps/firebase_options.dart';
 
 //according to firebase docs i have to do the following before runApp Function
 void main() async {
@@ -12,7 +13,9 @@ void main() async {
   // for firebase to initalize it need a native code from flutter
   //the following code ensure that the firebase has intialized in flutter
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
     FlutterMaps(
       // i created Anonymous object of the Class appRouter
@@ -32,7 +35,7 @@ class FlutterMaps extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => PhoneAuthBloc(
-          submitOtpCodeUseCase: sl(), submitAndVerifyPhoneNumberUseCase: sl()),
+          submitAndVerifyPhoneNumberUseCase: sl(), submitOtpCodeUseCase: sl()), 
       child: MaterialApp(
         title: 'flutter Demo',
         debugShowCheckedModeBanner: false,
