@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_maps/features/email_and_password/presentation/screens/email_login_screen.dart';
 import 'package:flutter_maps/features/phone_number_authentication/presentation/bloc/phone_auth_bloc.dart';
 import 'package:flutter_maps/features/phone_number_authentication/presentation/screens/login_screen.dart';
 import 'package:flutter_maps/features/phone_number_authentication/presentation/screens/otp_screen.dart';
@@ -54,6 +55,9 @@ class AppRouter {
             arguments: settings.arguments,
           ),
         );
+
+        case emailLoginScreen:
+        return MaterialPageRoute(builder: (_) => const EmailLoginScreen());
     }
     return null;
   }
