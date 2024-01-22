@@ -4,10 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_maps/app_router.dart';
 import 'package:flutter_maps/features/authentication/presentation/bloc/phone_auth_bloc.dart';
-import 'package:flutter_maps/features/authentication/presentation/widgets/injection_container.dart';
+import 'package:flutter_maps/features/authentication/presentation/widgets/injection_container.dart'
+    as di;
+import 'package:flutter_maps/features/push_notifications/data/firebase_api.dart';
+import 'package:flutter_maps/features/push_notifications/presentation/screens/notification_screen.dart';
 import 'package:flutter_maps/firebase_options.dart';
 
 //according to firebase docs i have to do the following before runApp Function
+
+final navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   //to use anything from firebase whether it is authentication databasse or anything, i must initalize firebase SDK
   // for firebase to initalize it need a native code from flutter
@@ -16,6 +21,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FirebaseApi().initNotification();
+
+  await di.init();
   runApp(
     FlutterMaps(
       // i created Anonymous object of the Class appRouter
@@ -35,12 +43,16 @@ class FlutterMaps extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => PhoneAuthBloc(
-          submitAndVerifyPhoneNumberUseCase: sl(), submitOtpCodeUseCase: sl()), 
+        submitAndVerifyPhoneNumberUseCase: di.sl(),
+        submitOtpCodeUseCase: di.sl(),
+      ),
       child: MaterialApp(
         title: 'flutter Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primarySwatch: Colors.blue),
         onGenerateRoute: appRouter.generateRoute,
+        navigatorKey: navigatorKey,
+        
       ),
     );
   }
