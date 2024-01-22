@@ -1,7 +1,7 @@
 import 'package:flutter_maps/core/network/internet_connection_checker.dart';
-import 'package:flutter_maps/features/authentication/Domain/repository.dart/auth_repository.dart';
-import 'package:flutter_maps/features/authentication/Domain/useCase.dart/submit_code.dart';
-import 'package:flutter_maps/features/authentication/Domain/useCase.dart/submit_phone_number.dart';
+import 'package:flutter_maps/features/authentication/domain/repository.dart/auth_repository.dart';
+import 'package:flutter_maps/features/authentication/domain/use_case.dart/submit_code_use_case.dart';
+import 'package:flutter_maps/features/authentication/domain/use_case.dart/submit_phone_number_use_case.dart';
 import 'package:flutter_maps/features/authentication/data/data_sources/remote_data_source.dart';
 import 'package:flutter_maps/features/authentication/data/repositroy_impl/auth_repository_impl.dart';
 import 'package:flutter_maps/features/authentication/presentation/bloc/phone_auth_bloc.dart';
@@ -11,36 +11,30 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
-//! Features - posts
-
-// Bloc
-
+  //! Features - authentication
+  // Bloc
   sl.registerFactory(() => PhoneAuthBloc(
-      submitOtpCodeUseCase: sl(), submitAndVerifyPhoneNumberUseCase: sl()));
+        submitOtpCodeUseCase: sl(),
+        submitAndVerifyPhoneNumberUseCase: sl(),
+      ));
 
-// Usecases
-
+  // Usecases
   sl.registerLazySingleton(
       () => SubmitAndVerifyPhoneNumberUseCase(authRepository: sl()));
   sl.registerLazySingleton(() => SubmitOtpCodeUseCase(authRepository: sl()));
 
-// Repository
+  // Repository
+  sl.registerLazySingleton<AuthRepository>(
+      () => AuthRepositoryImpl(networkInfo: sl(), authRemoteDataSource: sl()));
 
-  sl.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(networkInfo: sl(),
-      authRemoteDataSource: sl()));
-
-// Datasources
+  // Datasources
   sl.registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSourceImpl());
-  
 
-//! Core
-
+  //! Core
   sl.registerLazySingleton<NetworkInfo>(
       () => NetworkInfoImpl(connectionChecker: sl()));
 
-//! External
-
-  
+  //! External
   sl.registerLazySingleton(() => InternetConnectionChecker());
 }
