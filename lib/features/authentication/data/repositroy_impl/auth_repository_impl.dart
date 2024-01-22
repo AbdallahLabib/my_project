@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_maps/core/error/exception.dart';
 import 'package:flutter_maps/core/error/faliures.dart';
 import 'package:flutter_maps/core/network/internet_connection_checker.dart';
-import 'package:flutter_maps/features/authentication/Domain/repository.dart/auth_repository.dart';
+import 'package:flutter_maps/features/authentication/domain/repository.dart/auth_repository.dart';
 import 'package:flutter_maps/features/authentication/data/data_sources/remote_data_source.dart';
 
 class AuthRepositoryImpl extends AuthRepository {

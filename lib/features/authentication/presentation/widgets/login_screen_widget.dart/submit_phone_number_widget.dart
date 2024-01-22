@@ -4,9 +4,9 @@ import 'package:flutter_maps/core/constants/paths.dart';
 import 'package:flutter_maps/core/widgets/show_progress_indicator.dart';
 import 'package:flutter_maps/features/authentication/presentation/bloc/phone_auth_bloc.dart';
 
-class BuildPhoneNumberSubmitted extends StatelessWidget {
+class SubmitPhoneNumberWidget extends StatelessWidget {
   final String phoneNumber;
-  const BuildPhoneNumberSubmitted({super.key, required this.phoneNumber});
+  const SubmitPhoneNumberWidget({super.key, required this.phoneNumber});
 
   @override
   Widget build(BuildContext context) {
