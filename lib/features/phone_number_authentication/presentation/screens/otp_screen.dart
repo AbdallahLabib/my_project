@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_maps/core/constants/colors.dart';
 import 'package:flutter_maps/core/constants/paths.dart';
-import 'package:flutter_maps/features/authentication/presentation/bloc/phone_auth_bloc.dart';
+import 'package:flutter_maps/features/phone_number_authentication/presentation/bloc/phone_auth_bloc.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 // ignore: must_be_immutable

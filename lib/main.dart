@@ -3,11 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_maps/app_router.dart';
-import 'package:flutter_maps/features/authentication/presentation/bloc/phone_auth_bloc.dart';
-import 'package:flutter_maps/features/authentication/presentation/widgets/injection_container.dart'
-    as di;
+import 'package:flutter_maps/features/phone_number_authentication/presentation/bloc/phone_auth_bloc.dart';
+import 'package:flutter_maps/features/phone_number_authentication/presentation/widgets/injection_container.dart' as di;
 import 'package:flutter_maps/features/push_notifications/data/firebase_api.dart';
-import 'package:flutter_maps/features/push_notifications/presentation/screens/notification_screen.dart';
 import 'package:flutter_maps/firebase_options.dart';
 
 //according to firebase docs i have to do the following before runApp Function

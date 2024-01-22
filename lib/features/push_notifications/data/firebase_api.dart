@@ -6,7 +6,6 @@ import 'dart:convert';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_maps/core/constants/paths.dart';
-import 'package:flutter_maps/features/push_notifications/presentation/screens/notification_screen.dart';
 import 'package:flutter_maps/main.dart';
 
 Future<void> handleBackgroundMessege(RemoteMessage message) async {

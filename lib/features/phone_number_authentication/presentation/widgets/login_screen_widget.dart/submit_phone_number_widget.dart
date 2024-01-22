@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_maps/core/constants/paths.dart';
 import 'package:flutter_maps/core/widgets/show_progress_indicator.dart';
-import 'package:flutter_maps/features/authentication/presentation/bloc/phone_auth_bloc.dart';
+import 'package:flutter_maps/features/phone_number_authentication/presentation/bloc/phone_auth_bloc.dart';
 
 class SubmitPhoneNumberWidget extends StatelessWidget {
   final String phoneNumber;

@@ -2,8 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_maps/core/error/exception.dart';
 import 'package:flutter_maps/core/error/faliures.dart';
 import 'package:flutter_maps/core/network/internet_connection_checker.dart';
-import 'package:flutter_maps/features/authentication/domain/repository.dart/auth_repository.dart';
-import 'package:flutter_maps/features/authentication/data/data_sources/remote_data_source.dart';
+import 'package:flutter_maps/features/phone_number_authentication/domain/repository.dart/auth_repository.dart';
+import 'package:flutter_maps/features/phone_number_authentication/data/data_sources/remote_data_source.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
   final NetworkInfo networkInfo;
