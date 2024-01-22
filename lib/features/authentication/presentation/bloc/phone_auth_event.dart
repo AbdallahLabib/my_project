@@ -9,10 +9,7 @@ sealed class PhoneAuthEvent extends Equatable {
 }
 
 class SubmitPhoneNumberEvent extends PhoneAuthEvent {
-  final String phoneNumber;
-  const SubmitPhoneNumberEvent({
-    required this.phoneNumber,
-  });
+  const SubmitPhoneNumberEvent();
 }
 
 class SubmitOtpCodeEvent extends PhoneAuthEvent {
@@ -21,3 +18,4 @@ class SubmitOtpCodeEvent extends PhoneAuthEvent {
     required this.otpCode,
   });
 }
+

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_maps/core/constants/colors.dart';
+import 'package:flutter_maps/features/authentication/presentation/bloc/phone_auth_bloc.dart';
 
 class BuildFormField extends StatefulWidget {
   const BuildFormField({super.key});
@@ -9,10 +11,23 @@ class BuildFormField extends StatefulWidget {
 }
 
 class _BuildFormFieldState extends State<BuildFormField> {
-  late String phoneNumber ;
+  late String phoneNumber;
+  final TextEditingController phoneNumberController = TextEditingController();
+
+//  @override
+//   void initState(){
+//     phoneNumberController.text =phoneNumber ;
+//     super.initState();
+//   }
+
+  /* void updatePhoneNumber(value){
+    setState(() {
+      phoneNumber = value;
+    });
+  } */
   @override
   Widget build(BuildContext context) {
-     return Row(
+    return Row(
       children: [
         Expanded(
           flex: 1,
@@ -33,29 +48,33 @@ class _BuildFormFieldState extends State<BuildFormField> {
         Expanded(
           flex: 2,
           child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
-              decoration: BoxDecoration(
-                  border: Border.all(color: MyColors.blue),
-                  borderRadius: const BorderRadius.all(Radius.circular(6))),
-              child: TextFormField(
-                autofocus: true,
-                style: const TextStyle(fontSize: 18, letterSpacing: 2),
-                decoration: const InputDecoration(border: InputBorder.none),
-                cursorColor: Colors.black,
-                keyboardType: TextInputType.phone,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'please enter your phone number';
-                  } else if (value.length < 11) {
-                    return 'too short for a phone number';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  phoneNumber = value!;
-                },
-              )),
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+            decoration: BoxDecoration(
+                border: Border.all(color: MyColors.blue),
+                borderRadius: const BorderRadius.all(Radius.circular(6))),
+            child: TextFormField(
+              autofocus: true,
+              style: const TextStyle(fontSize: 18, letterSpacing: 2),
+              decoration: const InputDecoration(border: InputBorder.none),
+              cursorColor: Colors.black,
+              keyboardType: TextInputType.phone,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'please enter your phone number';
+                } else if (value.length < 11) {
+                  return 'too short for a phone number';
+                }
+                return null;
+              },
+              controller: phoneNumberController,
+              onChanged: (value) =>
+                  BlocProvider.of<PhoneAuthBloc>(context).phoneNumber = value,
+              /* onSaved: (value) {
+               updatePhoneNumber(value);
+              }, */
+            ),
+          ),
         ),
       ],
     );
@@ -67,6 +86,8 @@ class _BuildFormFieldState extends State<BuildFormField> {
         (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) + 127397));
     return flag;
   }
+
+  String getPhoneNumber() {
+    return phoneNumber;
   }
-
-
+}
