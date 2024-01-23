@@ -9,15 +9,16 @@ class LoginCheckerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: ( context, snapshot) {
-        if (snapshot.hasData){
-          return const MapScreen();
-        }else {
-          return const EmailLoginScreen();
-        }
-      },
-    ));
+      body: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const MapScreen();
+          } else {
+            return const EmailLoginScreen();
+          }
+        },
+      ),
+    );
   }
 }

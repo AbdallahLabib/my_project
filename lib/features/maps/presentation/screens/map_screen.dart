@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_maps/core/constants/paths.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -21,9 +22,9 @@ class _MapScreenState extends State<MapScreen> {
           Center(
             child: ElevatedButton(
               onPressed: () async {
-                FirebaseAuth.instance.signOut();
+                await FirebaseAuth.instance.signOut();
                 // await phoneAuthBloc.signOut();
-                // Navigator.of(context).pushReplacementNamed(loginScreen);
+                Navigator.of(context).pushReplacementNamed(loginScreen);
               },
               style: ElevatedButton.styleFrom(
                   minimumSize: const Size(110, 50),

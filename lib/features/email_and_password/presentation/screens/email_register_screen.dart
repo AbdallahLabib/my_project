@@ -1,50 +1,56 @@
 // ignore_for_file: prefer_const_constructors, avoid_print
 
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_maps/core/constants/paths.dart';
 
-class EmailLoginScreen extends StatefulWidget {
-  
-  const EmailLoginScreen({super.key,});
+class EmailRegisterScreen extends StatefulWidget {
+  const EmailRegisterScreen({super.key});
 
   @override
-  State<EmailLoginScreen> createState() => _EmailLoginScreenState();
+  State<EmailRegisterScreen> createState() => _EmailRegisterScreenState();
 }
 
-class _EmailLoginScreenState extends State<EmailLoginScreen> {
-  //Controllers for text field
+class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPaswordController = TextEditingController();
 
-  void signIn() async {
+  Future signUp() async {
     try {
-      UserCredential? user =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-      if (user.user!.uid.isNotEmpty) {
-        Navigator.of(context).pushNamed(mapScreen);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('no user found'),
-          ),
-        );
+      if (passwordConfirmed()) {
+         FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        ).then((value) => Navigator.of(context).pushNamed(mapScreen));
       }
+      
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
       }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+  
+  bool passwordConfirmed() {
+    if (_confirmPaswordController.text.trim() ==
+        _passwordController.text.trim()) {
+      return true;
+    } else {
+      return false;
     }
   }
 
   @override
   void dispose() {
     _emailController.dispose();
+    _confirmPaswordController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -68,7 +74,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
               SizedBox(height: 75),
               //Text (hello)
               Text(
-                'hello Again!',
+                'hello there!',
                 style: TextStyle(fontSize: 54, fontWeight: FontWeight.bold),
               ),
 
@@ -123,11 +129,31 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                   ),
                 ),
               ),
+              SizedBox(height: 20),
+              //TextField for Confirm password
+
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 50),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: TextField(
+                    controller: _confirmPaswordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: '   Confirm Password',
+                    ),
+                  ),
+                ),
+              ),
 
               //sign in button
 
               GestureDetector(
-                onTap: signIn,
+                onTap: signUp,
                 //onTap: () => BlocProvider.of<EmailBloc>(context).add(SubmitEmailAndPasswordEvent()),
                 child: Padding(
                   padding: const EdgeInsets.all(20),
@@ -138,7 +164,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                         borderRadius: BorderRadius.circular(12),
                         color: Colors.deepPurple),
                     child: Text(
-                      'Sign In',
+                      'Sign Up',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 25,
@@ -152,14 +178,15 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('not a member?'),
+                  Text('already a member'),
                   SizedBox(
                     width: 10,
                   ),
                   GestureDetector(
-                    onTap: () => Navigator.of(context).pushNamed(emailRegisterScreen),
+                    onTap: () =>
+                        Navigator.of(context).pushNamed(emailLoginScreen),
                     child: Text(
-                      'Register now',
+                      'Login now',
                       style: TextStyle(color: Colors.blue),
                     ),
                   ),

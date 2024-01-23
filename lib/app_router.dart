@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_maps/features/email_and_password/presentation/screens/email_login_screen.dart';
+import 'package:flutter_maps/features/email_and_password/presentation/screens/email_register_screen.dart';
 import 'package:flutter_maps/features/email_and_password/presentation/screens/login_checker_screen.dart';
 import 'package:flutter_maps/features/phone_number_authentication/presentation/bloc/phone_auth_bloc.dart';
 import 'package:flutter_maps/features/phone_number_authentication/presentation/screens/login_screen.dart';
@@ -62,7 +63,12 @@ class AppRouter {
 
         case loginChecker:
         return MaterialPageRoute(builder: (_) => const LoginCheckerScreen());
+
+        case emailRegisterScreen:
+        return MaterialPageRoute(builder: (_) => const EmailRegisterScreen());
     }
     return null;
   }
+
 }
+
