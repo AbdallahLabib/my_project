@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_maps/features/phone_number_authentication/presentation/widgets/login_screen_widget.dart/build_by_email_button.dart';
+import 'package:flutter_maps/features/phone_number_authentication/presentation/widgets/login_screen_widget.dart/build_login_by_email_button.dart';
 import 'package:flutter_maps/features/phone_number_authentication/presentation/widgets/login_screen_widget.dart/build_form_field.dart';
 import 'package:flutter_maps/features/phone_number_authentication/presentation/widgets/login_screen_widget.dart/build_intro_text.dart';
 import 'package:flutter_maps/features/phone_number_authentication/presentation/widgets/login_screen_widget.dart/build_next_button.dart';

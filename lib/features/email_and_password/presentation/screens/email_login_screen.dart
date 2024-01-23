@@ -1,6 +1,8 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, avoid_print
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_maps/core/constants/paths.dart';
 
 class EmailLoginScreen extends StatefulWidget {
   const EmailLoginScreen({super.key});
@@ -10,10 +12,42 @@ class EmailLoginScreen extends StatefulWidget {
 }
 
 class _EmailLoginScreenState extends State<EmailLoginScreen> {
-
   //Controllers for text field
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+   void signIn() async {
+    try {
+      UserCredential? user =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+      if (user.user!.uid.isNotEmpty) {
+        Navigator.of(context).pushNamed(mapScreen);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('no user found'),
+          ),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +56,9 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
         child: Center(
           child: Column(
             children: [
-              SizedBox(height: 50,),
+              SizedBox(
+                height: 50,
+              ),
               // Icon
               Icon(
                 Icons.android_rounded,
@@ -34,9 +70,9 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                 'hello Again!',
                 style: TextStyle(fontSize: 54, fontWeight: FontWeight.bold),
               ),
-        
+
               SizedBox(height: 20),
-        
+
               //Text (welcome)
               Text(
                 'welcome back, you have been missed!',
@@ -45,9 +81,9 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                 ),
               ),
               SizedBox(height: 20),
-        
+
               //TextField for the email
-        
+
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 50),
                 child: Container(
@@ -64,11 +100,11 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                   ),
                 ),
               ),
-        
+
               SizedBox(height: 20),
-        
+
               //TextField for the password
-        
+
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 50),
                 child: Container(
@@ -86,22 +122,27 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                   ),
                 ),
               ),
-        
+
               //sign in button
-        
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 130, vertical: 15),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.deepPurple),
-                  child: Text(
-                    'Sign In',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
+
+              GestureDetector(
+                onTap: signIn,
+                //onTap: () => BlocProvider.of<EmailBloc>(context).add(SubmitEmailAndPasswordEvent()),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 130, vertical: 15),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.deepPurple),
+                    child: Text(
+                      'Sign In',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
